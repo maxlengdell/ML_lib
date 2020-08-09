@@ -1,10 +1,10 @@
 class Pipe{
   constructor(){
-    this.spacing = 125;
+    this.spacing = 75;
     this.y_top = random(height / 6, 3 / 4 * height);
     this.y_bot = this.y_top + this.spacing;
     this.x = width;
-    this.width = 20;
+    this.width = 60;
     this.velocity = 3;
   }
   placePipe(){

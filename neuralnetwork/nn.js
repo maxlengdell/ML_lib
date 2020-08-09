@@ -124,4 +124,7 @@ class NeuralNetwork{
     this.bias_h.map(mutate);
     this.bias_o.map(mutate);
   }
+  serialize() {
+    return JSON.stringify(this);
+  }
 }

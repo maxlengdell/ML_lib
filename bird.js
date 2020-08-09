@@ -13,7 +13,7 @@ class Bird{
     if(brain instanceof NeuralNetwork) {
       this.brain = brain.copy();
     }else {
-      this.brain = new NeuralNetwork(4,4,2);
+      this.brain = new NeuralNetwork(5,8,2);
     }
 
 
@@ -28,7 +28,7 @@ class Bird{
     let closest = null;
     let closestD = Infinity;
     for(let i = 0; i< pipes.length; i++){
-      let d = pipes[i].x-this.x;
+      let d = (pipes[i].x+pipes[i].width)-this.x;
       if(d < closestD){
         closest = pipes[i];
         closestD = d;
@@ -40,6 +40,7 @@ class Bird{
     inputs[1] = closest.y_top/height;
     inputs[2] = closest.y_bot/height;
     inputs[3] = closest.x/width;
+    inputs[4] = this.velocity/10;
 
 
     let output = this.brain.predict(inputs);
@@ -47,23 +48,17 @@ class Bird{
       this.up();
     }
   }
+  offScreen() {
+    return (this.y > height || this.y < 0);
+  }
   update() {
     this.score++;
     //If it hits the bottom
     this.velocity *= 0.9;
-    if(this.y > height - this.size/2){
-      this.y = height - this.size/2;
-      this.velocity = 0;
-    }
-    //If it hits the roof
-    else if(this.y < 0){
-      this.y = 0 + this.size/2;
-      this.velocity = 0;
-    }
-    else{
-        this.velocity += this.gravity;
-        this.y += this.velocity;
-    }
+    
+    this.velocity += this.gravity;
+    this.y += this.velocity;
+    
   }
   up(){
     this.velocity += this.lift;
