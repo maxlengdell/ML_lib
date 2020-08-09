@@ -4,6 +4,10 @@ function nextGen() {
         birds[i] = pickOne();
     }
     console.log("next generation");
+    for(let i = 0; i< total_pop; i++){
+        saved_birds[i].dispose();
+
+    }
     saved_birds = [];
 }
 

@@ -18,6 +18,9 @@ class Bird{
 
 
   }
+  dispose() {
+    this.brain.dispose();
+  }
   placeBird(){
 
     fill(255,100);

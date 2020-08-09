@@ -1,6 +1,6 @@
 //flappy bird version
 
-const total_pop = 300;
+const total_pop = 250;
 var birds = [];
 var saved_birds = [];
 var pipes = [];
@@ -17,6 +17,7 @@ function keyPressed(){
 }
 function setup(){
   createCanvas(400,500);
+  tf.setBackend('cpu');
   for(let i = 0; i < total_pop; i++)
   {
     birds[i] = new Bird();
