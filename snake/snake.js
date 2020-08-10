@@ -135,6 +135,7 @@ class Snake{
     }
     checkRight(p){
         //Returns 1 if wall is to the right
+        //höger
         if(this.dx == 10 && this.dy == 0){
             if(this.size[0].y + 10 >= p.height){
                 return 1;
@@ -143,6 +144,7 @@ class Snake{
                 return 0;
             }
         }
+        //Vänster
         else if(this.dx == -10 && this.dy == 0){
             if(this.size[0].y - 10 < 0){
 
@@ -152,6 +154,7 @@ class Snake{
                 return 0;
             }
         }
+        //Ned
         else if(this.dx == 0 && this.dy == 10){
             if(this.size[0].x - 10 < 0){
 
@@ -161,6 +164,7 @@ class Snake{
                 return 0;
             }
         }
+        //Upp
         else if(this.dx == 0 && this.dy == -10){
             if(this.size[0].x + 10 >= p.width){
 
@@ -193,10 +197,95 @@ class Snake{
     offScreen(p){
         if(this.x >= p.width || this.x < 0 || this.y >= p.height || this.y < 0){
             console.log("outside");
+            return 1;
+        }else {
+            return 0;
         }
     }
-    distanceToFood(){
-        
+    foodAhead(p,food){
+        if(this.size[0].x == food.x || this.size[0].y == food.y){
+            console.log("food ahead");
+        }
+    }
+    foodToRight(p,food){
+         //höger
+         if(this.dx == 10 && this.dy == 0){
+            if(this.size[0].y < food.y){
+                return 1;
+            }
+            else {
+                return 0;
+            }
+        }
+        //Vänster
+        else if(this.dx == -10 && this.dy == 0){
+            if(this.size[0].y > food.y){
+                return 1;
+            }
+            else {
+                return 0;
+            }
+        }
+        //Ned
+        else if(this.dx == 0 && this.dy == 10){
+            if(this.size[0].x > food.x){
+                return 1;
+            }
+            else {
+                return 0;
+            }
+        }
+        //Upp
+        else if(this.dx == 0 && this.dy == -10){
+            if(this.size[0].x < food.x){
+                return 1;
+            }
+            else {
+                return 0;
+            }
+        }else{
+            return 0;
+        }
+    }
+    foodToLeft(p,food){
+            //höger
+        if(this.dx == 10 && this.dy == 0){
+            if(this.size[0].y > food.y){
+                return 1;
+            }
+            else {
+                return 0;
+            }
+        }
+        //Vänster
+        else if(this.dx == -10 && this.dy == 0){
+            if(this.size[0].y < food.y){
+                return 1;
+            }
+            else {
+                return 0;
+            }
+        }
+        //Ned
+        else if(this.dx == 0 && this.dy == 10){
+            if(this.size[0].x < food.x){
+                return 1;
+            }
+            else {
+                return 0;
+            }
+        }
+        //Upp
+        else if(this.dx == 0 && this.dy == -10){
+            if(this.size[0].x > food.x){
+                return 1;
+            }
+            else {
+                return 0;
+            }
+        }else{
+            return 0;
+        }
     }
     placeSnake(p){
         p.fill(250,50);

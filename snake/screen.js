@@ -1,4 +1,4 @@
-var screens = 10;
+var screens = 1;
 var savedScreens = [];
 
  
@@ -13,7 +13,7 @@ for(let k = 0; k < screens ;k++){
     var food;
     p.setup = function() {
         console.log("setup");
-        p.createCanvas(200, 200);
+        p.createCanvas(400, 400);
         x = Math.ceil(Math.random(0,p.width)/10)*10;
         y = Math.ceil(Math.random(0,p.height)/10)*10;
         console.log(x);
@@ -24,7 +24,7 @@ for(let k = 0; k < screens ;k++){
     p.draw = function() {
         p.background(0);
         snake.placeSnake(p);
-        snake.think(p);
+        //snake.think(p);
         if(counter % 5 == 0){
             snake.moveSnake();
         }
@@ -36,15 +36,29 @@ for(let k = 0; k < screens ;k++){
         //If snake hits wall: destroy
 
         counter++;
+
     };
+
+
   };
-  console.log("%d",k);
+  function keyPressed(){
+    if(keyCode === UP_ARROW && snake[0].dy != 10){
+        snake[0].dy = -10;
+        snake[0].dx = 0;
+    }else if(keyCode === RIGHT_ARROW && snake[0].dx != -10){
+        snake[0].dy = 0;
+        snake[0].dx = 10;
+    }else if(keyCode === LEFT_ARROW && snake[0].dx != 10){
+        snake[0].dy = 0;
+        snake[0].dx = -10;
+    }else if(keyCode === DOWN_ARROW && snake[0].dy != -10){
+        snake[0].dy = 10;
+        snake[0].dx = 0;
+    }
+
+  }
   var myp5 = new p5(t);
   savedScreens.push(myp5);
 
 }
-function setBG(cnv){
-    cnv.draw = function() {
-        cnv.background(200);
-    }
-}
+
