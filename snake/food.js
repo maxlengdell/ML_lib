@@ -10,6 +10,10 @@ class Food{
         p.fill('red');
         p.rect(this.x,this.y,10,10);
     }
+    // placeFood(){
+    //     fill('red');
+    //     rect(this.x,this.y,10,10);
+    // }
     hitsFood(snake){
         if(snake.size[0].x == this.x){
             if(snake.size[0].y == this.y){
@@ -18,10 +22,15 @@ class Food{
             }
         }
     }
-    generateFood(p){
-        this.x = Math.ceil(Math.random()/10)*10;
-        this.y = Math.ceil(Math.random()/10)*10;
+    // generateFood(p){
+    //     this.x = Math.ceil(Math.random()/10)*10;
+    //     this.y = Math.ceil(Math.random()/10)*10;
+    //     console.log(this.x + " : " + this.y);
+    // }
+    generateFood(){
+        this.x = Math.ceil((Math.random()*width)/10)*10;
+        this.y = Math.ceil((Math.random()*height)/10)*10;
+        
         console.log(this.x + " : " + this.y);
     }
-    
 }

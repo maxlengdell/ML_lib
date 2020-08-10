@@ -49,6 +49,7 @@ function draw() {
         }
       }
     }
+      //Leaves screen
     for(let i = birds.length - 1; i >= 0; i--){
       if(birds[i].offScreen()){
         saved_birds.push(birds.splice(i,1)[0]);
