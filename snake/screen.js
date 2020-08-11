@@ -1,7 +1,8 @@
-var screens = 100;
+var screens = 20;
 var savedScreens = [];
 var savedSnakes = [];
-
+var livingSnakes = [];
+let genCounter = 0;
 for(let k = 0; k < screens ;k++){
 
   var t = function( p ) { 
@@ -14,6 +15,7 @@ for(let k = 0; k < screens ;k++){
         x = Math.ceil(Math.random(0,p.width)/10)*10;
         y = Math.ceil(Math.random(0,p.height)/10)*10;
         snake = new Snake(p);
+        livingSnakes.push(snake);
         food = new Food();
     };
   
@@ -23,8 +25,13 @@ for(let k = 0; k < screens ;k++){
         if(snake instanceof Snake){
             snake.placeSnake(p);
             snake.think(p,food);
+            snake.update();
             if(counter % 5 == 0){
+                
                 snake.moveSnake();
+            }
+            if(counter % 100 == 0){
+                let q = new Snake(p);
             }
             food.placeFood(p);
             if(food.hitsFood(snake)){
@@ -33,15 +40,23 @@ for(let k = 0; k < screens ;k++){
             }
 
             if(snake.offScreen(p) || snake.collision()){
+                //Dead;
+                p.background('red');
+                livingSnakes.splice(snake,1);
                 savedSnakes.push(snake);
                 snake = null;
+                genCounter++;
             }
+            
         }
-        if(savedSnakes.length == screens){
-            //Nextgen
+        if(snake == null){
+            snake = nextGen()
+            livingSnakes.push(snake);
+            //snake.reset();
             counter = 0;
-            nextGen();
+            //genCounter = 0;
         }
+
         
         counter++;
 

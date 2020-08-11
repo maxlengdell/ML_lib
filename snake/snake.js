@@ -62,6 +62,35 @@ class Snake{
         //console.log(output);
         
     }
+    awayFromFood(){
+        
+    }
+    reset(){
+        //console.log("reset");
+        this.size = [{
+            x: this.x_start,
+            y: this.y_start
+        },
+        {
+            x: this.x_start - 10,
+            y: this.y_start
+        },
+        {
+            x: this.x_start - 20,
+            y: this.y_start
+        },
+        {
+            x: this.x_start - 30,
+            y: this.y_start
+        },
+        {
+            x: this.x_start - 40,
+            y: this.y_start
+        }
+    ]
+        this.dx = 10;
+        this.dy = 0;
+    }
     goRight(){
 
         if(this.dx == 10 && this.dy == 0){
@@ -201,7 +230,6 @@ class Snake{
     }
     offScreen(p){
         if(this.size[0].x > p.width || this.size[0].x < 0 || this.size[0].y > p.height || this.size[0].y < 0){
-            console.log("outside");
             return 1;
         }else {
             return 0;
