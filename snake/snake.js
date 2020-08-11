@@ -62,8 +62,13 @@ class Snake{
         //console.log(output);
         
     }
-    awayFromFood(){
-        
+    awayFromFood(food,oldX,oldY,snake){
+        //if it steers away from food. subtract score by 1.5
+       let oDstX = food.x-oldX;
+       let nDstX = food.x-snake.x;
+       if(oDstX-nDstX > 0){
+           
+       }
     }
     reset(){
         //console.log("reset");

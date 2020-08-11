@@ -19,13 +19,13 @@ function nextGen() {
 function pickOne(list, prob){
      var index = 0;
      var r = Math.random();
-
+    let breeding = livingSnakes.concat(savedSnakes);
      while (r > 0){
-         r = r-savedSnakes[index].fitness;
+         r = r-breeding[index].fitness;
          index++;
      }
     index--;
-    let snake_save = savedSnakes[index];
+    let snake_save = breeding[index];
     console.log(snake_save.score);
     let child = new Snake(snake_save.brain);
     child.mutate();

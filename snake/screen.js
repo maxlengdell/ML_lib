@@ -26,9 +26,13 @@ for(let k = 0; k < screens ;k++){
             snake.placeSnake(p);
             snake.think(p,food);
             snake.update();
+
             if(counter % 5 == 0){
-                
+                oldX = snake.x;
+                oldY = snake.y;
                 snake.moveSnake();
+
+                snake.awayFromFood(food,oldX,oldY,snake);
             }
             if(counter % 100 == 0){
                 let q = new Snake(p);
