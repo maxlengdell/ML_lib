@@ -1,32 +1,42 @@
-function nextGen() {
+function nextGen(i,p) {
     // calculateFitness();
-    // for(let i = 0; i < screens; i++){
-    //     savedSnakes[i] = pickOne();
-    // }
-    console.log("next generation");
+
     //Remove bad snakes from savedSnakes
     calculateFitness();
-    //let s = savedSnakes[Math.floor(Math.random() * savedSnakes.length)];
-    let s = pickOne();
-    let child = new Snake(s.brain);
-    if(savedSnakes.length == screens){
+    livingSnakes[i] = pickOne(p);
+
+    s = livingSnakes[i];
+    if(i == screens -1){
         savedSnakes = [];
+
     }
-    //console.log("next gen");
+    return s;
+}
+function pickHighest(p){
+    let highestFitness = 0;
+    let bestSnakeBrain;
+    for(let snake of savedSnakes) {
+        if(snake.fitness > highestFitness){
+            highestFitness = snake.fitness;
+            bestSnakeBrain = snake.brain;
+        }
+    }
+    console.log("highest fitness: " + highestFitness);
+    let child = new Snake(bestSnakeBrain,p);
+    
+    child.mutate();
     return child;
 }
-
 function pickOne(list, prob){
-     var index = 0;
-     var r = Math.random();
-    let breeding = livingSnakes.concat(savedSnakes);
-     while (r > 0){
-         r = r-breeding[index].fitness;
+    var index = 0;
+    var r = Math.random();
+    while (r > 0){
+         r = r-savedSnakes[index].fitness;
          index++;
      }
     index--;
-    let snake_save = breeding[index];
-    console.log(snake_save.score);
+    let snake_save = savedSnakes[index];
+    //console.log(snake_save.score);
     let child = new Snake(snake_save.brain);
     child.mutate();
     return child;
@@ -36,7 +46,6 @@ function calculateFitness() {
     let sum = 0;
     for(let snake of savedSnakes) {
         sum += snake.score;
-
     }
     for(let snake of savedSnakes) {
     snake.fitness = snake.score / sum;
