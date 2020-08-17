@@ -52,10 +52,10 @@ class Snake{
         if(output[0] > 0.5) {
             //Go straight
             
-        }else if(output[1] > 0.5) {
+        }if(output[1] > 0.5) {
             //Go left
             this.goLeft();
-        }else if(output[2] > 0.5) {
+        }if(output[2] > 0.5) {
             //Go right
             this.goRight();
         }
@@ -64,10 +64,15 @@ class Snake{
     }
     awayFromFood(food,oldX,oldY,snake){
         //if it steers away from food. subtract score by 1.5
-       let oDstX = food.x-oldX;
-       let nDstX = food.x-snake.x;
-       if(oDstX-nDstX > 0){
-           
+        //Returns one if it steers away from food
+
+      let oldDst = dist(food.x,food.y,oldX,oldY);
+      let newDst = dist(food.x,food.y,snake.size[0].x,snake.size[0].y);
+
+       if(newDst > oldDst){
+           return 1;
+       }else{
+           return 0;
        }
     }
     reset(){
@@ -96,43 +101,56 @@ class Snake{
         this.dx = 10;
         this.dy = 0;
     }
+    addScore(){
+        this.score += 2;
+    }
+    subtractScore(){
+        this.score -= 1.5;
+    }
     goRight(){
+        if(dirSet == 0){
+            dirSet = 1;
+            if(this.dx == 10 && this.dy == 0){
+                this.dx = 0;
+                this.dy = 10;
+            }
+            else if(this.dx == -10 && this.dy == 0){
+                this.dx = 0;
+                this.dy = -10;
+            }
+            else if(this.dx == 0 && this.dy == 10){
+                this.dx = -10;
+                this.dy = 0;
+            }
+            else if(this.dx == 0 && this.dy == -10){
+                this.dx = 10;
+                this.dy = 0;
+            }
+        }
 
-        if(this.dx == 10 && this.dy == 0){
-            this.dx = 0;
-            this.dy = 10;
-        }
-        else if(this.dx == -10 && this.dy == 0){
-            this.dx = 0;
-            this.dy = -10;
-        }
-        else if(this.dx == 0 && this.dy == 10){
-            this.dx = -10;
-            this.dy = 0;
-        }
-        else if(this.dx == 0 && this.dy == -10){
-            this.dx = 10;
-            this.dy = 0;
-        }
     
     }
     goLeft(){
-        if(this.dx == 10 && this.dy == 0){
-            this.dx = 0;
-            this.dy = -10;
+        if(dirSet == 0){
+            dirSet = 1;
+            if(this.dx == 10 && this.dy == 0){
+                this.dx = 0;
+                this.dy = -10;
+            }
+            else if(this.dx == -10 && this.dy == 0){
+                this.dx = 0;
+                this.dy = 10;
+            }
+            else if(this.dx == 0 && this.dy == 10){
+                this.dx = 10;
+                this.dy = 0;
+            }
+            else if(this.dx == 0 && this.dy == -10){
+                this.dx = -10;
+                this.dy = 0;
+            }
         }
-        else if(this.dx == -10 && this.dy == 0){
-            this.dx = 0;
-            this.dy = 10;
-        }
-        else if(this.dx == 0 && this.dy == 10){
-            this.dx = 10;
-            this.dy = 0;
-        }
-        else if(this.dx == 0 && this.dy == -10){
-            this.dx = -10;
-            this.dy = 0;
-        }
+
     
     }
     checkLeft(p){
@@ -241,11 +259,21 @@ class Snake{
         }
     }
     collision(){
-        for(let j = this.size.length - 1; j > 0; j--){
-            if(this.size[0].x == this.size[j].x && this.size[0].y == this.size[j].y){
-                return 1;
+        var tempSnake = Array.from(this.size);
+        var head = [this.size[0]];
+        tempSnake.shift();
+        var tail = tempSnake;
+        let r = 0;
+        var ret;
+        while(r < tail.length){
+            if(head[0].x == tail[r].x && head[0].y == tail[r].y){
+                return true;
+            }else{
+                ret = false;
             }
+            r++
         }
+        return ret;
     }
     foodAhead(food){
         if(this.size[0].x == food.x || this.size[0].y == food.y){
@@ -362,5 +390,11 @@ class Snake{
     copy(){
         return new Snake(this.brain);
     }
+}
+function dist(x1,y1,x2,y2){
+    let a = (x2-x1)*(x2-x1);
+    let b = (y2-y1)*(y2-y1);
+    let dist = Math.sqrt(a+b);
+    return dist;
 
 }
