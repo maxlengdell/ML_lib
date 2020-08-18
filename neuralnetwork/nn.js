@@ -111,7 +111,8 @@ class NeuralNetwork{
     // This is how we adjust weights ever so slightly
     function mutate(x) {
       if (Math.random() < rate) {
-        var offset = randomGaussian() * 0.5;
+        //Randomgaussian
+        var offset = Math.random() * 0.5;
         // var offset = random(-0.1, 0.1);
         var newx = x + offset;
         return newx;
@@ -123,5 +124,8 @@ class NeuralNetwork{
     this.weights_ho.map(mutate);
     this.bias_h.map(mutate);
     this.bias_o.map(mutate);
+  }
+  serialize() {
+    return JSON.stringify(this);
   }
 }
