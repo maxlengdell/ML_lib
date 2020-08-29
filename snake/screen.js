@@ -1,4 +1,4 @@
-var screens = 35;
+var screens = 54;
 var savedScreens = [];
 var savedSnakes = [];
 var livingSnakes = [];
@@ -27,8 +27,9 @@ for(let k = 0; k < screens ;k++){
         if(snake instanceof Snake){
             snake.placeSnake(p);
             if(counter % 5 == 0){
-                //snake.update();
-
+                if(k==0){
+                    
+                }
                 dirSet = 0;
                 snake.think(p,food);
                 oldX = snake.size[0].x;
@@ -38,9 +39,9 @@ for(let k = 0; k < screens ;k++){
 
                 if(snake.awayFromFood(food,oldX,oldY,snake)){
                     snake.subtractScore();
-                }else{
-                    snake.addScore();
                 }
+                    snake.addScore();
+                
             }
             food.placeFood(p);
             if(food.hitsFood(snake)){
@@ -50,15 +51,17 @@ for(let k = 0; k < screens ;k++){
 
             if(snake.offScreen(p) || snake.collision() || snake.score < 0){
                 //Dead;
-                if(snake.score < 0){
-                    console.log("dead by score");
-                }
-                if(snake.collision()){
-                    console.log("collision");
-                }
-                if(snake.offScreen(p)){
-                    console.log("offScreen");
-                }
+                // if(snake.score < 0){
+                //     console.log("dead by score");
+                // }
+                // p.background('blue');
+                // if(snake.collision()){
+                //     console.log("collision");
+                // }
+                // if(snake.offScreen(p)){
+                //     console.log("offScreen");
+                // }
+                snake.dead = 1;
                 let ind = findDeadSnake(livingSnakes);
                 livingSnakes.splice(ind,1);
                 savedSnakes.push(snake);
@@ -76,6 +79,7 @@ for(let k = 0; k < screens ;k++){
             counter = 0;
             if(snakeIndex == screens){
                 snakeIndex = 0;
+
             }
             //genCounter = 0;
         }
@@ -87,6 +91,10 @@ for(let k = 0; k < screens ;k++){
   };
   var myp5 = new p5(t);
   savedScreens.push(myp5);
+
+  
+
+
   function findDeadSnake(livingSnakes){
     for(let j = 0; j < livingSnakes.length; j++){
         if(livingSnakes[j].dead == 1){

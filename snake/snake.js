@@ -28,6 +28,7 @@ class Snake{
         this.fitness = 0;
         this.dx = 10;
         this.dy = 0;
+        this.dead = 0;
         if(brain instanceof NeuralNetwork){
             this.brain = brain.copy();
         }else{
@@ -102,17 +103,17 @@ class Snake{
         this.dy = 0;
     }
     addScore(){
-        this.score += 2;
+        this.score += 1.5;
     }
     subtractScore(){
-        this.score -= 1.5;
+        this.score -= 2;
     }
     snakeToLeft(){
         head = this.size[0];
         tail = this.size;
         for(let j = 1; j < this.size.length; j++){
             if(head.x + dx == tail[j] || head.y + dy == tail[j]){
-                console.log()
+                console.log("hit");
             }
         }
     }
