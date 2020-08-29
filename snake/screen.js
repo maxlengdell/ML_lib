@@ -1,4 +1,4 @@
-var screens = 54;
+var screens = 1;
 var savedScreens = [];
 var savedSnakes = [];
 var livingSnakes = [];
@@ -27,9 +27,7 @@ for(let k = 0; k < screens ;k++){
         if(snake instanceof Snake){
             snake.placeSnake(p);
             if(counter % 5 == 0){
-                if(k==0){
-                    
-                }
+
                 dirSet = 0;
                 snake.think(p,food);
                 oldX = snake.size[0].x;
