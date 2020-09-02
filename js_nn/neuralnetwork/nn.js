@@ -28,11 +28,13 @@ class NeuralNetwork{
       this.weights_ho = new Matrix(this.output_nodes, this.hidden_nodes);
       this.weights_ih.randomize();
       this.weights_ho.randomize();
-
+      console.log(this.weights_ih);
       this.bias_h = new Matrix(this.hidden_nodes, 1);
       this.bias_o = new Matrix(this.output_nodes, 1);
       this.bias_h.randomize();
       this.bias_o.randomize();
+      throw error;
+
     }
 
   }
@@ -40,7 +42,12 @@ class NeuralNetwork{
   predict(input_array){
     //Generating hidden outputs
     let inputs = Matrix.fromArray(input_array);
+    console.log("weights:", this.weights_ih)
+    console.log("inputs: ", inputs)
+
     let hidden = Matrix.multiply(this.weights_ih, inputs);
+    console.log("______")
+
     hidden.add(this.bias_h);
     hidden.map(sigmoid);
     //activation

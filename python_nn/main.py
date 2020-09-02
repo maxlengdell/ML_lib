@@ -1,5 +1,6 @@
 import pygame, sys
 from bird import *
+from nn.ga import nextGen
 from pipes import *
 from pygame.locals import *
 
@@ -25,7 +26,9 @@ class App:
         self.height = 500
         self.size = self.width, self.height
         self.birds = []
+        self.savedBirds = []
         self.pipes = []
+        self.totalBirds = 1
 
     def on_init(self):
         pygame.init()
@@ -36,10 +39,10 @@ class App:
                                         # pygame.DOUBLEBUF)
 
         self._running = True
+        self.pipes.insert(0, Pipe(self.width, self.height))
 
-        for x in range(0,1):
-            self.birds.append(Bird())
-
+        for x in range(0,self.totalBirds):
+            self.birds.append(Bird(None,self.width,self.height))
 
 
     def on_event(self, event):
@@ -57,16 +60,23 @@ class App:
                 pipe.placePipe(self.canvas)
                 pipe.update()
 
-
+        ##game loop for updating birds and pipes
         for bird in self.birds:
             for pipe in self.pipes:
                 if(pipe.hit(bird)):
-                    print("hit")
+                    self.savedBirds.append(bird)
+                    self.birds.remove(bird)
 
+            if bird.offScreen(self.height):
+                self.birds.remove(bird)
 
             bird.placeBird(self.canvas)
+            bird.think(self.pipes)
             bird.update()
-
+        if(len(self.savedBirds) == self.totalBirds):
+            counter = 0
+            nextGen(self.savedBirds)
+            #reset pipes
 
         counter += 1
 

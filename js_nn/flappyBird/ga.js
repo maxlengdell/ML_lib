@@ -20,7 +20,8 @@ function pickOne(list, prob){
     let child = new Bird(bird.brain);
     child.mutate();
 
-    return child;}
+    return child;
+}
 
 function calculateFitness() {
     let sum = 0;
