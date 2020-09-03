@@ -28,10 +28,16 @@ class App:
         self.birds = []
         self.savedBirds = []
         self.pipes = []
-        self.totalBirds = 30
+        self.totalBirds = 250
+        self.generation = 1
+        self.generationText = None
 
     def on_init(self):
         pygame.init()
+
+        pygame.font.init()
+        self.generationText = pygame.font.SysFont('Comic Sans MS', 30)
+
         self.clock = pygame.time.Clock()
         self.canvas = pygame.display.set_mode(self.size)
         pygame.display.set_caption("flappy!")
@@ -49,10 +55,10 @@ class App:
         if event.type == pygame.QUIT:
             self._running = False
 
+
     def on_loop(self):
         global counter
         self.canvas.fill(black)
-
         for pipe in self.pipes:
             if(pipe.x < -pipe.width):
                 self.pipes.pop()
@@ -60,32 +66,53 @@ class App:
                 pipe.placePipe(self.canvas)
                 pipe.update()
 
-        ##game loop for updating birds and pipes
-        for bird in self.birds:
-            for pipe in self.pipes:
-                if(pipe.hit(bird)):
-                    self.savedBirds.append(bird)
-                    self.birds.remove(bird)
 
-            if bird.offScreen(self.height):
-                self.birds.remove(bird)
+        for pipe in self.pipes:
+            ######
+            for index in range(len(self.birds)-1,-1,-1):
+                #print("alive gen: birds.len", len(self.birds), " savedBirds: ",
+                 #     len(self.savedBirds), "index: ", index)
 
-            bird.placeBird(self.canvas)
-            bird.think(self.pipes)
-            bird.update()
+                self.birds[index].placeBird(self.canvas)
+                self.birds[index].think(self.pipes)
+                self.birds[index].update()
+                if (self.birds[index].offScreen(self.height)):
+                    self.savedBirds.append(self.birds[index])
+
+                    self.birds.remove(self.birds[index])
+            ######
+                elif (pipe.hit(self.birds[index])):
+                    self.savedBirds.append(self.birds[index])
+
+                    self.birds.remove(self.birds[index])
+
+
         if(len(self.savedBirds) == self.totalBirds):
+            #print("previous gen: birds.len", len(self.birds), " savedBirds: ",
+            # len(self.savedBirds))
+
+            self.birds = []
+            self.birds = nextGen(self.savedBirds)
+            self.savedBirds = []
             counter = 0
-            nextGen(self.savedBirds)
+            #print("next gen: birds.len", len(self.birds), " savedBirds: ",
+            #      len(self.savedBirds))
+
             #reset pipes
+            self.pipes = []
+            self.pipes.insert(0,Pipe(self.width,self.height))
+            self.generation += 1
+            print("Generation: ", self.generation)
 
         counter += 1
 
         ##Append new pipe to the right side of the screen
         if(counter % 75 == 0):
             self.pipes.insert(0,Pipe(self.width,self.height))
-        ##
 
     def on_render(self):
+        textsurface = self.generationText.render(self.generation, False,white)
+        self.canvas.blit(textsurface,(0,0))
         pygame.display.update()
         self.clock.tick(60)
 

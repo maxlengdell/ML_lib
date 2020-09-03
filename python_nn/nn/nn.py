@@ -1,7 +1,7 @@
 import numpy as np
 import random
 class NeuralNetwork:
-    def __init__(self,a,b,c):
+    def __init__(self,a = None,b = None,c = None):
         if isinstance(a,NeuralNetwork):
             self.input_nodes = a.input_nodes
             self.hidden_nodes = a.hidden_nodes
@@ -43,6 +43,37 @@ class NeuralNetwork:
         output = sigFunc(output)
         return output.flatten()
 
+
+
+    def copy_nn(self):
+        new_class = NeuralNetwork(self)
+        return new_class
+
+    def mutate(self):
+        mutateFunc = np.vectorize(mutateHelper)
+        self.weights_ih = mutateFunc(self.weights_ih)
+        self.weights_ho = mutateFunc(self.weights_ho)
+        self.bias_h = mutateFunc(self.bias_h)
+        self.bias_o = mutateFunc(self.bias_o)
+
+
+
+def sigmoid(x):
+    return 1/(1+np.exp(-x))
+def dsigmoid(y):
+    return y*(1-y)
+def mutateHelper(x):
+    #mutation rate
+    rate = 0.1
+    if(random.random() < rate):
+        offset = random.random() * 0.5
+        newX = x + offset
+        return newX
+    else:
+        return x
+
+
+
     # def train(self,input_array,target_array):
     #     sigFunc = np.vectorize(sigmoid)
     #     dsigFunc = np.vectorize(dsigmoid)
@@ -67,29 +98,3 @@ class NeuralNetwork:
     #     gradients = gradients.dot(output_errors)
     #     gradients = gradients.dot(self.learning_rate)
     #
-
-
-
-    def copy_nn(self):
-        new_class = NeuralNetwork(self)
-        return new_class
-
-    def mutate(self):
-        mutateFunc = np.vectorize(mutateHelper)
-
-
-
-
-def sigmoid(x):
-    return 1/(1+np.exp(-x))
-def dsigmoid(y):
-    return y*(1-y)
-def mutateHelper(x):
-    #mutation rate
-    rate = 0.1
-    if(random.random() < rate):
-        offset = random.random() * 0.5
-        newX = x + offset
-        return newX
-    else:
-        return x

@@ -5,7 +5,11 @@ import bird
 
 def nextGen(savedBirds):
     #calculate fitness of savedBirds
+    birds = [None] * len(savedBirds)
     savedBirds = calculateFitness(savedBirds)
+    for i in range(len(savedBirds)):
+        birds[i] = pickOne(savedBirds)
+    return birds
 
 
 def pickOne(savedBirds):
@@ -17,8 +21,8 @@ def pickOne(savedBirds):
         index += 1
     index -= 1
     bird_select = savedBirds[index]
+    child = bird.Bird(bird_select.brain,400,500)
 
-    child = bird(bird_select.brain)
     child.mutate()
     return child
 

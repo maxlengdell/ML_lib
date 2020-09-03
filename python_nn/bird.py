@@ -36,18 +36,28 @@ class Bird:
 
                 closest = pipes[i]
                 closestD = d
+
         inputs = [None] * 5
-        inputs[0] = self.y/self.canvas_height
-        inputs[1] = closest.y_top/self.canvas_height
-        inputs[2] = closest.y_bot/self.canvas_height
-        inputs[3] = closest.x/self.canvas_width
-        inputs[4] = self.velocity/10
+        try:
+            inputs[0] = self.y/self.canvas_height
+            inputs[1] = closest.y_top/self.canvas_height
+            inputs[2] = closest.y_bot/self.canvas_height
+            inputs[3] = closest.x/self.canvas_width
+            inputs[4] = self.velocity/10
+        except:
+            print("except")
+            inputs[0] = self.y/self.canvas_height
+            inputs[1] = 99999/self.canvas_height
+            inputs[2] = 99999/self.canvas_height
+            inputs[3] = 99999/self.canvas_width
+            inputs[4] = self.velocity/10
 
         output = self.brain.predict(inputs)
         if(output[0] > 0.5):
             self.up()
 
-
+    def mutate(self):
+        self.brain.mutate()
 
 
     def update(self):
