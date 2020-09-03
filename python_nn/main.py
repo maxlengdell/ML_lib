@@ -28,7 +28,7 @@ class App:
         self.birds = []
         self.savedBirds = []
         self.pipes = []
-        self.totalBirds = 1
+        self.totalBirds = 30
 
     def on_init(self):
         pygame.init()

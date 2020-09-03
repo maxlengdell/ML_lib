@@ -30,41 +30,43 @@ class NeuralNetwork:
         sigFunc = np.vectorize(sigmoid)
 
         inputs = np.array(input_array)
+        inputs.shape = (5,1) # Set correct shape of input array
         hidden = self.weights_ih.dot(inputs)
 
-        hidden = hidden + self.bias_h
+        hidden = np.add(hidden,self.bias_h)
+
         hidden = sigFunc(hidden)
+
 
         output = self.weights_ho.dot(hidden)
         output = output + self.bias_o
         output = sigFunc(output)
-
         return output.flatten()
 
-    def train(self,input_array,target_array):
-        sigFunc = np.vectorize(sigmoid)
-        dsigFunc = np.vectorize(dsigmoid)
-
-
-        inputs = input_array
-        hidden = self.weights_ih.dot(inputs)
-
-        hidden = sigFunc(hidden)
-
-        outputs = self.weights_ho.dot(hidden)
-        outputs = outputs + self.bias_o
-        outputs = sigFunc(outputs)
-
-        targets = target_array
-        output_errors = targets - outputs
-
-        ## could be faulty above here
-
-        #Gradient decent
-        gradients = dsigFunc(outputs)
-        gradients = gradients.dot(output_errors)
-        gradients = gradients.dot(self.learning_rate)
-
+    # def train(self,input_array,target_array):
+    #     sigFunc = np.vectorize(sigmoid)
+    #     dsigFunc = np.vectorize(dsigmoid)
+    #
+    #
+    #     inputs = input_array
+    #     hidden = self.weights_ih.dot(inputs)
+    #
+    #     hidden = sigFunc(hidden)
+    #
+    #     outputs = self.weights_ho.dot(hidden)
+    #     outputs = outputs + self.bias_o
+    #     outputs = sigFunc(outputs)
+    #
+    #     targets = target_array
+    #     output_errors = targets - outputs
+    #
+    #     ## could be faulty above here
+    #
+    #     #Gradient decent
+    #     gradients = dsigFunc(outputs)
+    #     gradients = gradients.dot(output_errors)
+    #     gradients = gradients.dot(self.learning_rate)
+    #
 
 
 
@@ -74,7 +76,7 @@ class NeuralNetwork:
 
     def mutate(self):
         mutateFunc = np.vectorize(mutateHelper)
-        
+
 
 
 

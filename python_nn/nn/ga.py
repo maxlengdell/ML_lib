@@ -1,6 +1,6 @@
 import random
 
-from bird import Bird
+import bird
 
 
 def nextGen(savedBirds):
@@ -16,8 +16,9 @@ def pickOne(savedBirds):
         r = r-savedBirds[index].fitness
         index += 1
     index -= 1
-    bird = savedBirds[index]
-    child = Bird(bird.brain)
+    bird_select = savedBirds[index]
+
+    child = bird(bird_select.brain)
     child.mutate()
     return child
 
