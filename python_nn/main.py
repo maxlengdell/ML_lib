@@ -31,12 +31,13 @@ class App:
         self.totalBirds = 250
         self.generation = 1
         self.generationText = None
+        self.bestScore = 0
 
     def on_init(self):
         pygame.init()
 
         pygame.font.init()
-        self.generationText = pygame.font.SysFont('Comic Sans MS', 30)
+        self.generationText = pygame.font.SysFont('Comic Sans MS', 24)
 
         self.clock = pygame.time.Clock()
         self.canvas = pygame.display.set_mode(self.size)
@@ -90,7 +91,7 @@ class App:
         if(len(self.savedBirds) == self.totalBirds):
             #print("previous gen: birds.len", len(self.birds), " savedBirds: ",
             # len(self.savedBirds))
-
+            self.bestScore = self.getBestScore()
             self.birds = []
             self.birds = nextGen(self.savedBirds)
             self.savedBirds = []
@@ -111,8 +112,14 @@ class App:
             self.pipes.insert(0,Pipe(self.width,self.height))
 
     def on_render(self):
-        textsurface = self.generationText.render(self.generation, False,white)
-        self.canvas.blit(textsurface,(0,0))
+        gentext = "Generation: " + str(self.generation)
+        scoretext = "Best score: " + str(self.bestScore)
+        generationSurface = self.generationText.render(gentext, True,white)
+        scoreSurface = self.generationText.render(scoretext, True,white)
+
+        self.canvas.blit(generationSurface,(10,10))
+        self.canvas.blit(scoreSurface,(10,30))
+
         pygame.display.update()
         self.clock.tick(60)
 
@@ -131,10 +138,6 @@ class App:
                         self.birds[0].up()
 
 
-
-
-
-
             self.on_loop()
             self.on_render()
         self.on_cleanup()
@@ -143,6 +146,14 @@ class App:
 
     def getCanvasHeight(self):
         return self.height
+    def getBestScore(self):
+        best = self.bestScore
+        for bird in self.savedBirds:
+            if bird.score > self.bestScore:
+                best = bird.score
+        return best
+
+
 
 if __name__ == "__main__":
     theApp = App()

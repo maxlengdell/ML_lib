@@ -5,7 +5,7 @@ import main
 
 class Pipe:
     def __init__(self,canvas_width,canvas_height):
-        self.spacing = 200
+        self.spacing = 100
         self.y_top = random.uniform(canvas_height / 6, 3/4 * canvas_height)
         self.y_bot = self.y_top + self.spacing
         self.x = canvas_width
